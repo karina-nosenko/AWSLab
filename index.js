@@ -16,9 +16,9 @@ const validContent = (content) => {
 const sendSlackMessage = (message) => {
 	axios
 	.post(
-		// 'https://hooks.slack.com/services/***/***',
+		'https://hooks.slack.com/services/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',
 		{
-			channel: '#group-2212',
+			channel: '#test',
 			blocks: [
 				{
 					type: 'section',
