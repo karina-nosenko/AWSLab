@@ -1,42 +1,11 @@
+require('dotenv').config();
 const cron = require('node-cron');
 const path = require('path');
 const fs = require('fs');
-const axios = require('axios');
+const sendSlackMessage = require('./Slack');
+const validate = require('./Validations');
 
 const directoryPath = path.join(__dirname, 'Uploads');
-
-const validFilename = (fileName) => {
-	return path.extname(fileName) === '.csv';
-};
-
-const validContent = (content) => {
-	return content.indexOf('Lab') === 0;
-};
-
-const sendSlackMessage = (message) => {
-	axios
-	.post(
-		'https://hooks.slack.com/services/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',
-		{
-			channel: '#test',
-			blocks: [
-				{
-					type: 'section',
-					text: {
-						type: 'mrkdwn',
-						text: message,
-					},
-				},
-				],
-		}
-	)
-	.then(() => {
-		console.log('Slack message was sent.');
-	})
-	.catch(() => {
-		console.log('Error while sending Slack message.');
-	});
-};
 
 const scanDirectory = () => {
 	fs.readdir(directoryPath, (error, files) => {
@@ -50,14 +19,14 @@ const scanDirectory = () => {
 					console.log(error);
 				} else {
 					const content = data.toString();
-					if (validFilename(fileName) && validContent(content)) {
+					if (validate.validFilename(fileName) && validate.validContent(content)) {
 						// Move the file to S3 valid
 						console.log(`Moving the ${ fileName } file to S3 valid.`);
 					} else {
 						// Move the file to S3 invalid
 						console.log(`Moving the  ${ fileName } file to S3 invalid.`);
 						sendSlackMessage(`${ fileName } format error. The file was sent to S3 invalid.`);
-                                        }
+                    }
 				}
 			});
 		});
