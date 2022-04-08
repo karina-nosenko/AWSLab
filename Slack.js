@@ -20,7 +20,7 @@ module.exports = sendSlackMessage = (message) => {
 	.then(() => {
 		console.log('Slack message was sent.');
 	})
-	.catch(() => {
-		console.log('Error while sending Slack message.');
+	.catch((error) => {
+		console.log(error.message);
 	});
 };
