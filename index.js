@@ -8,30 +8,28 @@ const { uploadInValidFile, uploadValidFile } = require("./uploadFile");
 const directoryPath = path.join(__dirname, "Uploads");
 
 const scanDirectory = () => {
-  fs.readdir(directoryPath, (error, files) => {
-    if (error) {
-      return console.log("Unable to scan directory: " + error);
+  fs.readdir(directoryPath, (err, files) => {
+    if (err) {
+      return console.log("Unable to scan directory: " + err);
     }
 
-    files.forEach((fileName) => {
-      fs.readFile(`${directoryPath}/${fileName}`, "utf-8", (error, data) => {
-        if (error) {
-          console.log(error);
+    files.forEach((filename) => {
+      fs.readFile(`${directoryPath}/${filename}`, "utf-8", (err, data) => {
+        if (err) {
+          console.log(err);
         } else {
           const content = data.toString();
           if (
-            Validate.validFilename(fileName) &&
+            Validate.validFilename(filename) &&
             Validate.validContent(content)
           ) {
             // Move the file to S3 valid
-            uploadValidFile(fileName);
-            console.log(`Moving the ${fileName} file to S3 valid.`);
+            uploadValidFile(filename);
           } else {
             // Move the file to S3 invalid
-            uploadInValidFile(fileName);
-            console.log(`Moving the  ${fileName} file to S3 invalid.`);
+            uploadInValidFile(filename);
             sendSlackMessage(
-              `${fileName} format error. The file was sent to S3 invalid.`
+              `${filename} format error. The file should start from the word 'Lab' and have a '.csv' extension.`
             );
           }
         }
