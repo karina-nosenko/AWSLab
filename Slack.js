@@ -1,21 +1,22 @@
-const axios = require('axios');
-
+const axios = require("axios");
+const Valid = process.env.WEBHOOK_URL;
+const InValid = process.env.CHANNEL;
 module.exports = sendSlackMessage = (message) => {
   axios
-    .post(process.env.WEBHOOK_URL, {
-      channel: '#test',
+    .post(WEBHOOK_URL, {
+      channel: CHANNEL,
       blocks: [
         {
-          type: 'section',
+          type: "section",
           text: {
-            type: 'mrkdwn',
+            type: "mrkdwn",
             text: message,
           },
         },
       ],
     })
     .then(() => {
-      console.log('Slack message was sent.');
+      console.log("Slack message was sent.");
     })
     .catch((error) => {
       console.log(error.message);
