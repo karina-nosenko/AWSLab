@@ -38,4 +38,4 @@ const scanDirectory = () => {
   });
 };
 
-cron.schedule("* * * * *", scanDirectory);
+cron.schedule("* * * * * *", scanDirectory);
