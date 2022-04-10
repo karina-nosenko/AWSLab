@@ -1,7 +1,7 @@
 <h1>Approach</h1>
 ❖ Node.js checks whether the file extension is .xml and the content contains the
 word “Lab”.<br>
-❖ Integration to Slack api to send message for invalid files
+❖ Integration to Slack api to send message for invalid files<br>
 ❖ Using a private key to send the files to the Ubuntu server to prevent the man in
 the middle attack.<br>
 ❖ Files will be deleted from the server after moving to the S3 buckets to reduce the
